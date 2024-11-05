@@ -1,0 +1,16 @@
+# Virtual environment
+.venv/
+venv/
+
+# VSCode settings
+.vscode/
+
+# Python cache
+__pycache__/
+
+# Environment and dependency files
+*.env
+*.venv
+.env.local
+.venv.local
+Pipfile.lock
