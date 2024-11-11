@@ -41,6 +41,7 @@ class Body:
         # Calculate acceleration
         ax = force[0] / self.mass
         ay = force[1] / self.mass
+        
 
         # Update velocity
         self.velocity[0] += ax * dt
