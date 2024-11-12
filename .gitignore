@@ -8,6 +8,9 @@ venv/
 # Python cache
 __pycache__/
 
+# csv files
+*.csv
+
 # Environment and dependency files
 *.env
 *.venv
