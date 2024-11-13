@@ -8,9 +8,6 @@ def data_generator(reader, skip_lines=30):
     skip_counter = skip_lines-1
     for row in reader:
 
-        if row == "":
-            print("EOF")
-
         if skip_counter == 0:
             # Yield the values, assuming `time` is the first column
             yield (float(row[0]), float(row[1]), float(row[2]),
@@ -19,6 +16,9 @@ def data_generator(reader, skip_lines=30):
             
         else:
             skip_counter -= 1
+
+    file.seek(0)
+    data_generator(reader, skip_lines)
 
 
 limit = 1e9
