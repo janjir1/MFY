@@ -26,7 +26,7 @@ skip_lines = 30
 const_fps = 60
 interval = 1000 / const_fps
 
-with open("Newton.csv", "r") as file:
+with open("neutron_trajectory.csv", "r") as file:
     reader = csv.reader(file)
 
     # Initialize plot
