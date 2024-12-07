@@ -105,7 +105,7 @@ def simulate_GR(m_neutron: int, x0: float, y0: float, vx0: float, vy0: float, Rs
 
 if __name__ == "__main__":
 
-        # Constants
+    # Constants
     G = 6.67430e-11  # Gravitational constant
     M_sun = 1.989e30
     c = 299792458 

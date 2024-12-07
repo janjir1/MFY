@@ -6,8 +6,11 @@ from matplotlib import ticker
 from matplotlib.ticker import EngFormatter
 
 
-def plot(body1_file, body2_file, limit, tick, body_radius, body_name):
+def plot(body1_file, body2_file, limit, interval, body_radius, body_name, export_animation = False):
         # Read data from files
+    class StopAnimationException(Exception):
+        pass
+
     def read_csvN(file_path):
         with open(file_path, 'r') as file:
             reader = csv.reader(file)
@@ -71,6 +74,7 @@ def plot(body1_file, body2_file, limit, tick, body_radius, body_name):
     frame_index = 0
     last_x1, last_y1 = None, None
     last_x2, last_y2 = None, None
+    formatter2 = EngFormatter(places=0, sep="", unit="s")
 
     def init():
         body1.set_data([], [])
@@ -102,8 +106,13 @@ def plot(body1_file, body2_file, limit, tick, body_radius, body_name):
             body1_data[frame_index][0] if frame_index < len(body1_data) else 0,
             body2_data[frame_index][0] if frame_index < len(body2_data) else 0
         )
-        formatter2 = EngFormatter(places=0, sep="", unit="s")
+        if frame_index > len(body1_data) and frame_index > len(body2_data):
+            print("stop")
+            raise StopAnimationException("Stopping the animation export.")
+        
         formatted_time = formatter2.format_eng(current_time)
+        if export_animation:
+            print(f'Simulation Time: {formatted_time}s')
         time_text.set_text(f'Simulation Time: {formatted_time}s')
 
         frame_index += 1
@@ -111,7 +120,12 @@ def plot(body1_file, body2_file, limit, tick, body_radius, body_name):
 
     # Animation
     ani = animation.FuncAnimation(fig, update, init_func=init,
-                                blit=True, interval=interval, cache_frame_data=False)
+                                blit=True, interval=interval)
+    
+    if export_animation:
+        print("Exporting animation")
+        ani.save('animation.mp4', writer='ffmpeg', fps=1/interval)
+
 
 
     # Enable interactive pan/zoom in the plot
@@ -136,4 +150,4 @@ if __name__ == "__main__":
     Rs = 2 * G * mass1 / c**2
     tick = 1e6
 
-    plot(body1_file, body2_file, limit, tick, Rs, "event")
+    plot(body1_file, body2_file, limit, interval, Rs, "event")

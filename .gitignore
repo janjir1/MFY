@@ -17,3 +17,6 @@ __pycache__/
 .env.local
 .venv.local
 Pipfile.lock
+
+# video
+*.mp4
