@@ -44,7 +44,7 @@ def plot(body1_file, body2_file, limit, interval, body_radius, body_name, export
     body2_path_y = [point[2] for point in body2_data]  # Y-coordinates
 
     # Initialize plot
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10, 8))
     ax.plot(body1_path_x, body1_path_y, 'b--', label='Newton Path')  # Dotted blue line for Body 1 path
     ax.plot(body2_path_x, body2_path_y, 'r--', label='GR Path')  # Dotted red line for Body 2 path
     body1, = ax.plot([], [], 'bo', label='Newton')  # Blue circle for Body 1
@@ -140,8 +140,8 @@ if __name__ == "__main__":
     body2_file = "GR.csv"
 
     # Set up simulation parameters
-    limit = 75000  # Adjust plot limits
-    interval = 5e-3  # Update interval in milliseconds
+    limit = 79818000000  # Adjust plot limits
+    interval = 50  # Update interval in milliseconds
 
     G = 6.67430e-11  # Gravitational constant
     M_sun = 1.989e30

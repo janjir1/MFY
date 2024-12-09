@@ -25,7 +25,7 @@ def simulate_newton(mass1: int, position1: list, velocity1: list, mass2: int, po
     def update_position(mass, position, velocity, force_vector, dt):
         # Calculate acceleration
         acceleration = force_vector / mass
-
+        #print(acceleration)
         # Update velocity and position
         velocity += acceleration * dt
         position += velocity * dt
@@ -37,13 +37,14 @@ def simulate_newton(mass1: int, position1: list, velocity1: list, mass2: int, po
             self.mass = mass
             self.position = np.array(position, dtype=np.float64)
             self.velocity = np.array(velocity, dtype=np.float64)
-            self.force_vector = np.zeros(3, dtype=np.float64)
+            self.force_vector = np.zeros(2, dtype=np.float64)
 
         def calculate_gravitational_force_wrap(self, other):
-            self.force_vector, other_force_vector = calculate_gravitational_force(
+            self_force_vector, other_force_vector = calculate_gravitational_force(
                 self.mass, self.position, other.mass, other.position
             )
             other.set_gravitational_force(other_force_vector)
+            self.set_gravitational_force(self_force_vector)
 
         def set_gravitational_force(self, force):
             self.force_vector = force
@@ -79,6 +80,7 @@ def simulate_newton(mass1: int, position1: list, velocity1: list, mass2: int, po
         counter = 0
 
         while sim_time<target_time:
+            #print(sim_time, body1.position[0], body1.position[1], body2.position[0], body2.position[1])
 
             # Calculate gravitational force on each body
 
@@ -114,16 +116,18 @@ if __name__ == "__main__":
     M_sun = 1.989e30
     c = 299792458 
     
-    mass1 = 10 * M_sun
+    mass1 = 1 * M_sun
     position1 = [0, 0]
     velocity1 = [0, 0]
     Rs = 2 * G * mass1 / c**2
+    raduis = 696340000
 
-    mass2 = 1.675e-27
-    position2 = [2 * Rs, 0]
-    velocity2 = [0, -0.4*c]
+    mass2 = 0.33010e24
+    position2 = [46e9, 0]
+    velocity2 = [0, 58.97e3]
 
-    target_time = 0.0003
-    dt = 0.0000000003
+    target_time = 10e6
+    resolution = 1e6
+    dt = target_time/resolution
 
-    simulate_newton(mass1, position1, velocity1, mass2, position2, velocity2, target_time, dt)
+    simulate_newton(mass1, position1, velocity1, mass2, position2, velocity2, target_time, dt, 1)
